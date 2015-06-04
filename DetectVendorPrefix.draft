@@ -1,0 +1,79 @@
+console.clear();
+//---------------------------
+(function(doc){
+ var d=doc, w=d.defaultView, e=d.documentElement, o=w.getComputedStyle(e,null),
+ i=o.length, p, m=[], n, prefix, what=[],require,alias=[];
+
+ while(i--){
+	p=o[i];//PropertyOfStyleDeclaration
+	if(p[0]==='-'){//(/^-/.test(p))
+		m[m.length]=p;
+	};
+ };
+ console.log('prefixedprops:%O',m);
+
+ n=m[0];
+ if(n && (p=/(-\w+-)/).test(n)){
+	 require=what[prefix=n.match(p)[1]]=[];
+	 p=RegExp('('+prefix+')(.+)');
+	 i=m.length;
+	 while(i--){
+		n=m[i].match(p)[2] ;
+		n=((n in o)?alias:require);
+		n[n.length]=n;
+	 };
+	 console.log('vendor:',prefix);
+	 console.dir('require:',what);
+	 console.log('alias:%O',alias);//è supportata anche la proprietà non prefixata
+
+
+ };
+
+ console.log(prefix);
+
+})(document);
+//---------------------------
+
+
+/*
+
+*/
+
+
+
+
+
+	if(p[0]==='-'){
+		m[m.length]=p;
+	};
+
+
+
+ console.dir(m);
+console.log(p);
+
+	console.log();
+.length
+console.dir(o);
+
+ for(p in o){
+	console.log(p);
+ };
+
+
+	console.log(o[p]);
+
+
+  var styles=window.getComputedStyle(, ''),
+    pre=(Array.prototype.slice
+      .call(styles)
+      .join('')
+      .match(/-(moz|webkit|ms)-/) || (styles.OLink === '' && ['', 'o'])
+    )[1],
+    dom=('WebKit|Moz|MS|O').match(new RegExp('(' + pre + ')', 'i'))[1];
+  return {
+    dom: dom,
+    lowercase: pre,
+    css: '-' + pre + '-',
+    js: pre[0].toUpperCase() + pre.substr(1)
+  };

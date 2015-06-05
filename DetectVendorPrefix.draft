@@ -1,79 +1,31 @@
-console.clear();
-//---------------------------
-(function(doc){
- var d=doc, w=d.defaultView, e=d.documentElement, o=w.getComputedStyle(e,null),
- i=o.length, p, m=[], n, prefix, what=[],require,alias=[];
+//------------------------------------------------------
+"use strict";
+(function(o){
+ var c=o;c.clear();
+ inspect=c.dir;log=c.log.bind(c);
+})(console);
+//------------------------------------------------------
 
- while(i--){
-	p=o[i];//PropertyOfStyleDeclaration
-	if(p[0]==='-'){//(/^-/.test(p))
-		m[m.length]=p;
+function removeFirstAndLastCharacter(s){var t=s,i=t.length;return i<3?'':t.substring(1,i-1);};
+
+//#START
+var cssPrefix=(function(doc){
+ var d=doc, w=d.defaultView, e=d.documentElement, o=w.getComputedStyle(e,null), result=false,
+ p, i, m=[], prefix, prefixes={};
+
+ i=parseInt(o.length);//TotalOf:PropertyOfStyleDeclaration
+ while(i!==0){p=o[i--];if(p[0]==='-'){m[m.length]=p;};};//(/^-/.test(p))
+ //log('properties with prefix:%O',m);
+ i=parseInt(m.length);
+ if(i!==0){
+	o=[];
+	while(i!==0){
+		p=m[--i].match(/(-\w+-)(.+)/);
+		prefix=removeFirstAndLastCharacter(p[1]);
+		((prefix in prefixes)?prefixes[prefix]:prefixes[prefix]=[]).push(p[2]);
 	};
+	inspect(prefixes);
  };
- console.log('prefixedprops:%O',m);
-
- n=m[0];
- if(n && (p=/(-\w+-)/).test(n)){
-	 require=what[prefix=n.match(p)[1]]=[];
-	 p=RegExp('('+prefix+')(.+)');
-	 i=m.length;
-	 while(i--){
-		n=m[i].match(p)[2] ;
-		n=((n in o)?alias:require);
-		n[n.length]=n;
-	 };
-	 console.log('vendor:',prefix);
-	 console.dir('require:',what);
-	 console.log('alias:%O',alias);//è supportata anche la proprietà non prefixata
-
-
- };
-
- console.log(prefix);
-
+ return result;
 })(document);
-//---------------------------
-
-
-/*
-
-*/
-
-
-
-
-
-	if(p[0]==='-'){
-		m[m.length]=p;
-	};
-
-
-
- console.dir(m);
-console.log(p);
-
-	console.log();
-.length
-console.dir(o);
-
- for(p in o){
-	console.log(p);
- };
-
-
-	console.log(o[p]);
-
-
-  var styles=window.getComputedStyle(, ''),
-    pre=(Array.prototype.slice
-      .call(styles)
-      .join('')
-      .match(/-(moz|webkit|ms)-/) || (styles.OLink === '' && ['', 'o'])
-    )[1],
-    dom=('WebKit|Moz|MS|O').match(new RegExp('(' + pre + ')', 'i'))[1];
-  return {
-    dom: dom,
-    lowercase: pre,
-    css: '-' + pre + '-',
-    js: pre[0].toUpperCase() + pre.substr(1)
-  };
+//#END

@@ -10,22 +10,36 @@ function removeFirstAndLastCharacter(s){var t=s,i=t.length;return i<3?'':t.subst
 
 //#START
 var cssPrefix=(function(doc){
- var d=doc, w=d.defaultView, e=d.documentElement, o=w.getComputedStyle(e,null), result=false,
- p, i, m=[], prefix, prefixes={};
+ var d=doc, w=d.defaultView, e=d.documentElement, o=w.getComputedStyle(e,null), r=false,
+ p, i, k, m=[], prefixes={};
 
  i=parseInt(o.length);//TotalOf:PropertyOfStyleDeclaration
  while(i!==0){p=o[i--];if(p[0]==='-'){m[m.length]=p;};};//(/^-/.test(p))
  //log('properties with prefix:%O',m);
  i=parseInt(m.length);
  if(i!==0){
-	o=[];
 	while(i!==0){
 		p=m[--i].match(/(-\w+-)(.+)/);
-		prefix=removeFirstAndLastCharacter(p[1]);
-		((prefix in prefixes)?prefixes[prefix]:prefixes[prefix]=[]).push(p[2]);
+		r=removeFirstAndLastCharacter(p[1]);//prefix
+		((r in prefixes)?prefixes[r]:prefixes[r]=[]).push(p[2]);
 	};
-	inspect(prefixes);
+	//log('prefixes:%O',r);
+	k=Object.keys(prefixes);
+	i=parseInt(k.length);
+
+	while(i!==0){
+		m=prefixes[k[--i]];
+		e=m.alias=[];
+		r=m.required=[];
+		while(p=m.pop()){
+			((p in o)?e:r).push(p);
+		};
+		if(e.length===0){m.alias=null;};
+	};
+	r=prefixes;
+
  };
- return result;
+ return r;
 })(document);
 //#END
+inspect(cssPrefix);

@@ -1,0 +1,26 @@
+(Array.prototype
+    .slice.call(styles)
+    .join('')
+    .match(/-(moz|webkit|ms)-/))[1]
+    
+    
+    
+    
+    var styles = window.getComputedStyle(document.documentElement, '')
+  var match = toArray(styles).join('').match(PREFIXES)
+  return match ? match[1] : ''
+  
+  
+  
+  
+  var transitions = ["transition", "-webkit-transition", "MozTransition", "msTransition"];
+var timingFunctions = ["transitionTimingFunction", "-webkit-transition-timing-function", "MozTransitionTimingFunction", "msTransitionTimingFunction"];
+var transforms = ["transform", "-webkit-transform", "MozTransform", "msTransform"];
+var element = document.createElement("div").style;
+
+    var index = transitions.length;
+    while (index--) {
+        if (transitions[index] in element) {
+            return transitions[index];
+        }
+    }
